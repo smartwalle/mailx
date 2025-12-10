@@ -1,4 +1,4 @@
-package nmail
+package mailx
 
 import (
 	"fmt"

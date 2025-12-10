@@ -1,4 +1,4 @@
-package nmail
+package mailx
 
 // This is a fork of https://github.com/jordan-wright/email/blob/master/email.go written in a
 // more extendable way

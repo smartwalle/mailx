@@ -1,10 +1,10 @@
-package nmail
+package mailx
 
 import (
 	"context"
 	"crypto/tls"
 	"errors"
-	"github.com/smartwalle/npool"
+	"github.com/smartwalle/poolx"
 	"net/mail"
 	"net/smtp"
 	"time"
@@ -30,25 +30,25 @@ func WithDialer(dialer Dialer) Option {
 
 func WithMaxIdle(idle int) Option {
 	return func(c *Client) {
-		c.opts = append(c.opts, npool.WithMaxIdle(idle))
+		c.opts = append(c.opts, poolx.WithMaxIdle(idle))
 	}
 }
 
 func WithMaxActive(active int) Option {
 	return func(c *Client) {
-		c.opts = append(c.opts, npool.WithMaxActive(active))
+		c.opts = append(c.opts, poolx.WithMaxActive(active))
 	}
 }
 
 func WithIdleTimeout(timeout time.Duration) Option {
 	return func(c *Client) {
-		c.opts = append(c.opts, npool.WithIdleTimeout(timeout))
+		c.opts = append(c.opts, poolx.WithIdleTimeout(timeout))
 	}
 }
 
 func WithMaxLifetime(lifetime time.Duration) Option {
 	return func(c *Client) {
-		c.opts = append(c.opts, npool.WithMaxLifetime(lifetime))
+		c.opts = append(c.opts, poolx.WithMaxLifetime(lifetime))
 	}
 }
 
@@ -66,8 +66,8 @@ type Client struct {
 	tlsConfig *tls.Config
 	dialer    Dialer
 
-	opts []npool.Option
-	pool *npool.Pool[*SMTPClient]
+	opts []poolx.Option
+	pool *poolx.Pool[*SMTPClient]
 }
 
 func NewClient(username, password, host, port string, opts ...Option) *Client {
@@ -82,7 +82,7 @@ func NewClient(username, password, host, port string, opts ...Option) *Client {
 			opt(nClient)
 		}
 	}
-	nClient.opts = append(nClient.opts, npool.WithWait(true))
+	nClient.opts = append(nClient.opts, poolx.WithWait(true))
 
 	if nClient.tlsConfig == nil {
 		nClient.tlsConfig = &tls.Config{
@@ -93,7 +93,7 @@ func NewClient(username, password, host, port string, opts ...Option) *Client {
 	if nClient.dialer == nil {
 		nClient.dialer = DefaultDialer
 	}
-	nClient.pool = npool.New[*SMTPClient](
+	nClient.pool = poolx.New[*SMTPClient](
 		func(ctx context.Context) (*SMTPClient, error) {
 			return nClient.dialer(ctx, nClient.username, nClient.password, nClient.host, nClient.port, nClient.tlsConfig)
 		},

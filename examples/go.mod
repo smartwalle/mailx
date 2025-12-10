@@ -1,10 +1,10 @@
-module github.com/smartwalle/nmail/examples
+module github.com/smartwalle/mailx/examples
 
-go 1.12
+go 1.18
 
 require (
-	github.com/smartwalle/nmail v0.0.0
-	github.com/smartwalle/npool v0.0.2 // indirect
+	github.com/smartwalle/mailx v0.0.0
+	github.com/smartwalle/poolx v0.0.3 // indirect
 )
 
-replace github.com/smartwalle/nmail => ../
+replace github.com/smartwalle/mailx => ../

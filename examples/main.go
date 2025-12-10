@@ -2,20 +2,20 @@ package main
 
 import (
 	"fmt"
-	"github.com/smartwalle/nmail"
+	"github.com/smartwalle/mailx"
 )
 
 func main() {
-	var client = nmail.NewClient(
+	var client = mailx.NewClient(
 		"smartwalle@gmail.com",
 		"your password",
 		"smtp.gmail.com",
 		"587",
-		nmail.WithMaxIdle(1),
-		nmail.WithMaxActive(1),
+		mailx.WithMaxIdle(1),
+		mailx.WithMaxActive(1),
 	)
 
-	var m = nmail.NewHTMLMessage("Title", "<a href='http://www.google.com'>Hello Google</a>")
+	var m = mailx.NewHTMLMessage("Title", "<a href='http://www.google.com'>Hello Google</a>")
 	m.From = "Yang<smartwalle@gmail.com>"
 	m.To = []string{"917996695@qq.com"}
 
